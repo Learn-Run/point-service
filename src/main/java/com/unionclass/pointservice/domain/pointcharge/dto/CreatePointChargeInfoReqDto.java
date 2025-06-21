@@ -39,6 +39,7 @@ public class CreatePointChargeInfoReqDto {
                 .bonusPoint(bonusPoint)
                 .paymentAmount(paymentAmount)
                 .active(active)
+                .deleted(false)
                 .build();
     }
 }

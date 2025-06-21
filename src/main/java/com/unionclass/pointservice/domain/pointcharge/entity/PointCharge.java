@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -37,14 +39,26 @@ public class PointCharge extends BaseEntity {
     @Column(nullable = false)
     private boolean active;
 
+    @Comment("삭제 여부")
+    @Column(nullable = false)
+    private boolean deleted;
+
+    @Comment("삭제 일시")
+    private LocalDateTime deletedAt;
+
     @Builder
-    public PointCharge(Long id, Long uuid, Long point, Long bonusPoint, Long paymentAmount, boolean active) {
+    public PointCharge(
+            Long id, Long uuid, Long point, Long bonusPoint, Long paymentAmount,
+            boolean active, boolean deleted, LocalDateTime deletedAt
+    ) {
         this.id = id;
         this.uuid = uuid;
         this.point = point;
         this.bonusPoint = bonusPoint;
         this.paymentAmount = paymentAmount;
         this.active = active;
+        this.deleted = deleted;
+        this.deletedAt = deletedAt;
     }
 
     public void toggleActive() {
