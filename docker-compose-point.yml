@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  point-service:
+    image: 009160040466.dkr.ecr.ap-northeast-2.amazonaws.com/learn-run/point-service:latest
+    container_name: point-service
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    networks:
+      - shared-net
+
+networks:
+  shared-net:
+    external: true
