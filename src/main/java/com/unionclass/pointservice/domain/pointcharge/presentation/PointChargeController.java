@@ -26,6 +26,7 @@ public class PointChargeController {
      * 1. 포인트 충전 정보 생성
      * 2. 포인트 충전 정보 - 활성 여부 변경
      * 3. 포인트 충전 정보 변경
+     * 4. 포인트 충전 정보 삭제
      */
 
     /**
@@ -78,7 +79,6 @@ public class PointChargeController {
                     
                     [요청 경로]
                     - Path Variable: pointChargeUuid (Long)
-                      * 활성 상태를 변경할 포인트 충전 정보의 UUID 입니다.
                     
                     [처리 방식]
                     - UUID 로 충전 정보를 조회합니다.
@@ -111,6 +111,9 @@ public class PointChargeController {
                     포인트 충전 정보를 변경하는 API 입니다.
                     이 API 는 관리자 또는 내부 시스템에서 호출되며 충전 포인트, 보너스 포인트, 결제 금액을 변경할 수 있습니다.
                     
+                    [요청 경로]
+                    - Path Variable: pointChargeUuid (Long)
+                    
                     [요청 바디]
                     - point : (선택입력) 충전할 포인트
                     - bonusPoint : (선택입력) 추가로 지급할 보너스 포인트
@@ -136,11 +139,37 @@ public class PointChargeController {
         return new BaseResponseEntity<>(ResponseMessage.SUCCESS_UPDATE_POINT_CHARGE.getMessage());
     }
 
+    /**
+     * 4. 포인트 충전 정보 삭제
+     *
+     * @param pointChargeUuid
+     * @return
+     */
+    @Operation(
+            summary = "포인트 충전 정보 삭제",
+            description = """
+                    포인트 충전 정보를 삭제 처리하는 API 입니다.
+                    soft delete (논리적 삭제) 를 사용합니다.
+                    이 API 는 관리자 또는 내부 시스템에서 호출됩니다.
+                    
+                    [요청 경로]
+                    - Path Variable: pointChargeUuid (Long)
+                    
+                    [처리 방식]
+                    - UUID 로 충전 정보를 조회합니다.
+                    - 조회된 정보의 삭제 여부 (deleted) 를 true 로 설정하고, 삭제 일시 (deletedAt) 에 삭제 시각을 기록합니다.
+                    - 실제 DB 에서는 제거되지 않습니다.
+                    
+                    [예외 상황]
+                    - FAILED_TO_FIND_POINT_CHARGE : 해당 UUID 에 대한 포인트 충전 정보를 찾을 수 없는 경우
+                    - FAILED_TO_DELETE_POINT_CHARGE : 포인트 충전 정보 삭제 중 알 수 없는 오류 발생
+                    """
+    )
     @DeleteMapping("/{pointChargeUuid}")
     public BaseResponseEntity<Void> deletePointChargeInfo(
             @PathVariable Long pointChargeUuid
     ) {
         pointChargeService.deletePointChargeInfo(DeletePointChargeInfoReqDto.from(pointChargeUuid));
-
+        return new BaseResponseEntity<>(ResponseMessage.SUCCESS_DELETE_POINT_CHARGE.getMessage());
     }
 }

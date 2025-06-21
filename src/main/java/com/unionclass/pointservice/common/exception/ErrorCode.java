@@ -126,7 +126,7 @@ public enum ErrorCode {
     FAILED_TO_FIND_POINT_CHARGE(HttpStatus.BAD_REQUEST, false, 9001, "포인트 충전 정보 조회에 실패하였습니다."),
     FAILED_TO_TOGGLE_ACTIVE_STATUS(HttpStatus.INTERNAL_SERVER_ERROR, false, 9002, "포인트 충전 정보 - 활성 여부 변경에 실패하였습니다."),
     FAILED_TO_UPDATE_POINT_CHARGE(HttpStatus.INTERNAL_SERVER_ERROR, false, 9003, "포인트 충전 정보 변경에 실패하였습니다."),
-    ;
+    FAILED_TO_DELETE_POINT_CHARGE(HttpStatus.INTERNAL_SERVER_ERROR, false, 9004, "포인트 충전 정보 삭제에 실패하였습니다.");
 
     private final HttpStatus httpStatus;
     private final boolean isSuccess;

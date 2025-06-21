@@ -71,4 +71,9 @@ public class PointCharge extends BaseEntity {
         this.bonusPoint = updatePointChargeInfoReqDto.getBonusPoint() == null ? bonusPoint : updatePointChargeInfoReqDto.getBonusPoint();
         this.paymentAmount = updatePointChargeInfoReqDto.getPaymentAmount() == null ? paymentAmount : updatePointChargeInfoReqDto.getPaymentAmount();
     }
+
+    public void deleteInfo() {
+        this.deleted = true;
+        this.deletedAt = LocalDateTime.now();
+    }
 }

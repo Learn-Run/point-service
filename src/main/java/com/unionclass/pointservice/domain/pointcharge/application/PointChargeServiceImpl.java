@@ -4,6 +4,7 @@ import com.unionclass.pointservice.common.exception.BaseException;
 import com.unionclass.pointservice.common.exception.ErrorCode;
 import com.unionclass.pointservice.common.util.NumericUuidGenerator;
 import com.unionclass.pointservice.domain.pointcharge.dto.in.CreatePointChargeInfoReqDto;
+import com.unionclass.pointservice.domain.pointcharge.dto.in.DeletePointChargeInfoReqDto;
 import com.unionclass.pointservice.domain.pointcharge.dto.in.ToggleActiveStatusReqDto;
 import com.unionclass.pointservice.domain.pointcharge.dto.in.UpdatePointChargeInfoReqDto;
 import com.unionclass.pointservice.domain.pointcharge.entity.PointCharge;
@@ -60,7 +61,7 @@ public class PointChargeServiceImpl implements PointChargeService {
 
         } catch (Exception e) {
 
-            log.warn("포인트 충전 정보 - 활성 여부 변경 중 알 수 없는 오류 발생 - message: {}", e.getMessage(), e);
+            log.warn("포인트 충전 정보 - 활성 여부 변경 실패 - message: {}", e.getMessage(), e);
 
             throw new BaseException(ErrorCode.FAILED_TO_TOGGLE_ACTIVE_STATUS);
         }
@@ -84,9 +85,37 @@ public class PointChargeServiceImpl implements PointChargeService {
 
         } catch (Exception e) {
 
-            log.warn("포인트 충전 정보 변경 중 알 수 없는 오류 발생 - message: {}", e.getMessage(), e);
+            log.warn("포인트 충전 정보 변경 실패 - message: {}", e.getMessage(), e);
 
             throw new BaseException(ErrorCode.FAILED_TO_UPDATE_POINT_CHARGE);
+
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deletePointChargeInfo(DeletePointChargeInfoReqDto deletePointChargeInfoReqDto) {
+
+        try {
+
+            PointCharge pointCharge = pointChargeRepository.findByUuid(deletePointChargeInfoReqDto.getPointChargeUuid())
+                    .orElseThrow(() -> new BaseException(ErrorCode.FAILED_TO_FIND_POINT_CHARGE));
+
+            pointCharge.deleteInfo();
+
+            pointChargeRepository.save(pointCharge);
+
+            log.info("포인트 충전 정보 삭제 성공");
+
+        } catch (BaseException e) {
+
+            throw e;
+
+        } catch (Exception e) {
+
+            log.warn("포인트 충전 정보 삭제 실패 - message: {}", e.getMessage(), e);
+
+            throw new BaseException(ErrorCode.FAILED_TO_DELETE_POINT_CHARGE);
 
         }
     }
