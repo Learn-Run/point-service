@@ -46,4 +46,8 @@ public class PointCharge extends BaseEntity {
         this.paymentAmount = paymentAmount;
         this.active = active;
     }
+
+    public void toggleActive() {
+        this.active = !active;
+    }
 }

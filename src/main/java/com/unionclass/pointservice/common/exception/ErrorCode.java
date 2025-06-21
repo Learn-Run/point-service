@@ -122,7 +122,9 @@ public enum ErrorCode {
     /**
      * 9000 : point service error
      */
-    FAILED_TO_CREATE_POINT_CHARGE(HttpStatus.INTERNAL_SERVER_ERROR, false, 9000, "포인트 충전 생성에 실패하였습니다.");
+    FAILED_TO_CREATE_POINT_CHARGE(HttpStatus.INTERNAL_SERVER_ERROR, false, 9000, "포인트 충전 정보 생성에 실패하였습니다."),
+    FAILED_TO_FIND_POINT_CHARGE(HttpStatus.BAD_REQUEST, false, 9001, "포인트 충전 정보 조회에 실패하였습니다."),
+    FAILED_TO_TOGGLE_ACTIVE_STATUS(HttpStatus.INTERNAL_SERVER_ERROR, false, 9002, "포인트 충전 정보 - 활성 여부 변경에 실패하였습니다.");
 
     private final HttpStatus httpStatus;
     private final boolean isSuccess;
