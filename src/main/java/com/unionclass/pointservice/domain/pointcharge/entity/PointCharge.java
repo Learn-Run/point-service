@@ -1,6 +1,7 @@
 package com.unionclass.pointservice.domain.pointcharge.entity;
 
 import com.unionclass.pointservice.common.entity.BaseEntity;
+import com.unionclass.pointservice.domain.pointcharge.dto.in.UpdatePointChargeInfoReqDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -63,5 +64,11 @@ public class PointCharge extends BaseEntity {
 
     public void toggleActive() {
         this.active = !active;
+    }
+
+    public void updateInfo(UpdatePointChargeInfoReqDto updatePointChargeInfoReqDto) {
+        this.point = updatePointChargeInfoReqDto.getPoint() == null ? point : updatePointChargeInfoReqDto.getPoint();
+        this.bonusPoint = updatePointChargeInfoReqDto.getBonusPoint() == null ? bonusPoint : updatePointChargeInfoReqDto.getBonusPoint();
+        this.paymentAmount = updatePointChargeInfoReqDto.getPaymentAmount() == null ? paymentAmount : updatePointChargeInfoReqDto.getPaymentAmount();
     }
 }

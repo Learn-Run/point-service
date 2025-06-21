@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 0
 
 eureka:
   instance:
@@ -14,9 +14,9 @@ springdoc:
 
 spring:
   application:
-    name: member-service
+    name: point-service
   profiles:
-    active: prod
+    active: dev
 
   jpa:
     hibernate:

@@ -1,10 +1,12 @@
 package com.unionclass.pointservice.domain.pointcharge.application;
 
-import com.unionclass.pointservice.domain.pointcharge.dto.CreatePointChargeInfoReqDto;
-import com.unionclass.pointservice.domain.pointcharge.dto.ToggleActiveStatusReqDto;
+import com.unionclass.pointservice.domain.pointcharge.dto.in.CreatePointChargeInfoReqDto;
+import com.unionclass.pointservice.domain.pointcharge.dto.in.ToggleActiveStatusReqDto;
+import com.unionclass.pointservice.domain.pointcharge.dto.in.UpdatePointChargeInfoReqDto;
 
 public interface PointChargeService {
 
     void createPointChargeInfo(CreatePointChargeInfoReqDto createPointChargeInfoReqDto);
     void toggleActiveStatus(ToggleActiveStatusReqDto toggleActiveStatusReqDto);
+    void updatePointChargeInfo(UpdatePointChargeInfoReqDto updatePointChargeInfoReqDto);
 }

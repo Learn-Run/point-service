@@ -1,7 +1,7 @@
-package com.unionclass.pointservice.domain.pointcharge.dto;
+package com.unionclass.pointservice.domain.pointcharge.dto.in;
 
 import com.unionclass.pointservice.domain.pointcharge.entity.PointCharge;
-import com.unionclass.pointservice.domain.pointcharge.vo.CreatePointChargeInfoReqVo;
+import com.unionclass.pointservice.domain.pointcharge.vo.in.CreatePointChargeInfoReqVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

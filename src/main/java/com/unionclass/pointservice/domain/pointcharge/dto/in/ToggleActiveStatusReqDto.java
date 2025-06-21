@@ -1,4 +1,4 @@
-package com.unionclass.pointservice.domain.pointcharge.dto;
+package com.unionclass.pointservice.domain.pointcharge.dto.in;
 
 import lombok.Builder;
 import lombok.Getter;
