@@ -117,12 +117,12 @@ public enum ErrorCode {
     FAILED_TO_FIND_PAYMENT_BY_PAYMENT_KEY(HttpStatus.BAD_REQUEST, false, 8009, "해당 PaymentKey 로 결제 정보를 찾을 수 없습니다."),
     FAILED_TO_CANCEL_PAYMENT(HttpStatus.INTERNAL_SERVER_ERROR, false, 8010, "결제 환불 처리에 실패하였습니다."),
     FAILED_TO_CALL_TOSS_API_FOR_REFUND(HttpStatus.INTERNAL_SERVER_ERROR, false, 8011, "환불 처리를 위한 토스와의 통신에 실패하였습니다."),
-    FAILED_TO_SAVE_PAYMENT_AND_REFUND_HISTORY(HttpStatus.INTERNAL_SERVER_ERROR, false, 8012, "환불 처리에 대한 결제 및 환불 기록 저장에 실패하였습니다.")
+    FAILED_TO_SAVE_PAYMENT_AND_REFUND_HISTORY(HttpStatus.INTERNAL_SERVER_ERROR, false, 8012, "환불 처리에 대한 결제 및 환불 기록 저장에 실패하였습니다."),
 
     /**
      * 9000 : point service error
      */
-    ;
+    FAILED_TO_CREATE_POINT_CHARGE(HttpStatus.INTERNAL_SERVER_ERROR, false, 9000, "포인트 충전 생성에 실패하였습니다.");
 
     private final HttpStatus httpStatus;
     private final boolean isSuccess;
