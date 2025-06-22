@@ -1,9 +1,7 @@
 package com.unionclass.pointservice.domain.pointcharge.application;
 
-import com.unionclass.pointservice.domain.pointcharge.dto.in.CreatePointChargeInfoReqDto;
-import com.unionclass.pointservice.domain.pointcharge.dto.in.DeletePointChargeInfoReqDto;
-import com.unionclass.pointservice.domain.pointcharge.dto.in.ToggleActiveStatusReqDto;
-import com.unionclass.pointservice.domain.pointcharge.dto.in.UpdatePointChargeInfoReqDto;
+import com.unionclass.pointservice.domain.pointcharge.dto.in.*;
+import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPaymentInfoResDto;
 
 public interface PointChargeService {
 
@@ -11,4 +9,6 @@ public interface PointChargeService {
     void toggleActiveStatus(ToggleActiveStatusReqDto toggleActiveStatusReqDto);
     void updatePointChargeInfo(UpdatePointChargeInfoReqDto updatePointChargeInfoReqDto);
     void deletePointChargeInfo(DeletePointChargeInfoReqDto deletePointChargeInfoReqDto);
+
+    GetPaymentInfoResDto getPaymentInfoByPointCharge(GetPaymentInfoReqDto getPaymentInfoReqDto);
 }
