@@ -4,12 +4,16 @@ import com.unionclass.pointservice.common.response.BaseResponseEntity;
 import com.unionclass.pointservice.common.response.ResponseMessage;
 import com.unionclass.pointservice.domain.pointcharge.application.PointChargeService;
 import com.unionclass.pointservice.domain.pointcharge.dto.in.*;
+import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPointChargeUuidResDto;
 import com.unionclass.pointservice.domain.pointcharge.vo.in.CreatePointChargeInfoReqVo;
 import com.unionclass.pointservice.domain.pointcharge.vo.in.UpdatePointChargeInfoReqVo;
 import com.unionclass.pointservice.domain.pointcharge.vo.out.GetPaymentInfoResVo;
+import com.unionclass.pointservice.domain.pointcharge.vo.out.GetPointChargeUuidResVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -209,5 +213,31 @@ public class PointChargeController {
         return new BaseResponseEntity<>(
                 ResponseMessage.SUCCESS_GET_PAYMENT_INFO_BY_POINT_CHARGE.getMessage(),
                 pointChargeService.getPaymentInfoByPointCharge(GetPaymentInfoReqDto.from(pointChargeUuid)).toVo());
+    }
+
+    /**
+     * 6. 포인트 충전 정보 UUID 전체 조회
+     *
+     * @return
+     */
+    @Operation(
+            summary = "포인트 충전 정보 UUID 전체 조회",
+            description = """
+                    포인트 충전 정보 UUID 리스트를 조회하는 API 입니다.
+                    해당 API 는 사용자에게 노출할 포인트 충전 항목의 UUID 리스트를 제공합니다.
+                    
+                    [처리 방식]
+                    - active = true && deleted = false 조건을 만족하는 포인트 충전 정보만 조회합니다.
+                    - 충전할 포인트 기준으로 오름차순 정렬합니다.
+                    
+                    [응답 형태]
+                    - UUID 값만 포함된 리스트
+                    """
+    )
+    @GetMapping("/uuid/all")
+    public BaseResponseEntity<List<GetPointChargeUuidResVo>> getActivePointChargeUuids() {
+        return new BaseResponseEntity<>(
+                ResponseMessage.SUCCESS_GET_POINT_CHARGE_UUID_LIST.getMessage(),
+                pointChargeService.getActivePointChargeUuids().stream().map(GetPointChargeUuidResDto::toVo).toList());
     }
 }

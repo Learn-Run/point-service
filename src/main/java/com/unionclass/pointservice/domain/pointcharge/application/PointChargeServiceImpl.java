@@ -6,6 +6,7 @@ import com.unionclass.pointservice.common.util.NumericUuidGenerator;
 import com.unionclass.pointservice.common.util.StringUuidGenerator;
 import com.unionclass.pointservice.domain.pointcharge.dto.in.*;
 import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPaymentInfoResDto;
+import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPointChargeUuidResDto;
 import com.unionclass.pointservice.domain.pointcharge.entity.PointCharge;
 import com.unionclass.pointservice.domain.pointcharge.infrastructure.PointChargeRepository;
 import com.unionclass.pointservice.domain.pointcharge.util.OrderNameTemplateProvider;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -144,5 +147,10 @@ public class PointChargeServiceImpl implements PointChargeService {
             throw new BaseException(ErrorCode.FAILED_TO_GET_PAYMENT_INFO_BY_POINT_CHARGE);
 
         }
+    }
+
+    @Override
+    public List<GetPointChargeUuidResDto> getActivePointChargeUuids() {
+        return pointChargeRepository.getActivePointChargeUuidsSorted();
     }
 }
