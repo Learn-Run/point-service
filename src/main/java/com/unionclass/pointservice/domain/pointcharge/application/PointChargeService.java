@@ -22,4 +22,6 @@ public interface PointChargeService {
     List<GetPointChargeUuidResDto> getActivePointChargeUuids();
 
     GetPointChargeInfoResDto getPointChargeInfo(Long pointChargeUuid);
+
+    List<GetPointChargeInfoResDto> getActivePointChargeInfoList();
 }

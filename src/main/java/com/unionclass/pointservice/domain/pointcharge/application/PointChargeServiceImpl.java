@@ -25,6 +25,7 @@ import java.util.List;
 public class PointChargeServiceImpl implements PointChargeService {
 
     private final PointChargeRepository pointChargeRepository;
+
     private final NumericUuidGenerator numericUuidGenerator;
     private final StringUuidGenerator stringUuidGenerator;
     private final OrderNameTemplateProvider orderNameTemplateProvider;
@@ -162,5 +163,11 @@ public class PointChargeServiceImpl implements PointChargeService {
 
         return GetPointChargeInfoResDto.from(pointChargeRepository.findByUuid(pointChargeUuid)
                 .orElseThrow(() -> new BaseException(ErrorCode.FAILED_TO_FIND_POINT_CHARGE)));
+    }
+
+    @Override
+    public List<GetPointChargeInfoResDto> getActivePointChargeInfoList() {
+
+        return pointChargeRepository.getActivePointChargeInfoListSorted();
     }
 }

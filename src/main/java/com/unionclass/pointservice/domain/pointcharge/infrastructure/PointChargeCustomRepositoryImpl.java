@@ -1,8 +1,8 @@
 package com.unionclass.pointservice.domain.pointcharge.infrastructure;
 
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPointChargeInfoResDto;
 import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPointChargeUuidResDto;
 import com.unionclass.pointservice.domain.pointcharge.entity.QPointCharge;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +23,17 @@ public class PointChargeCustomRepositoryImpl implements PointChargeCustomReposit
 
         return queryFactory
                 .select(Projections.constructor(GetPointChargeUuidResDto.class, pointCharge.uuid))
+                .from(pointCharge)
+                .where(pointCharge.active.isTrue(), pointCharge.deleted.isFalse())
+                .orderBy(pointCharge.point.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<GetPointChargeInfoResDto> getActivePointChargeInfoListSorted() {
+
+        return queryFactory
+                .select(Projections.constructor(GetPointChargeInfoResDto.class, pointCharge.uuid))
                 .from(pointCharge)
                 .where(pointCharge.active.isTrue(), pointCharge.deleted.isFalse())
                 .orderBy(pointCharge.point.asc())

@@ -4,6 +4,7 @@ import com.unionclass.pointservice.common.response.BaseResponseEntity;
 import com.unionclass.pointservice.common.response.ResponseMessage;
 import com.unionclass.pointservice.domain.pointcharge.application.PointChargeService;
 import com.unionclass.pointservice.domain.pointcharge.dto.in.*;
+import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPointChargeInfoResDto;
 import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPointChargeUuidResDto;
 import com.unionclass.pointservice.domain.pointcharge.vo.in.CreatePointChargeInfoReqVo;
 import com.unionclass.pointservice.domain.pointcharge.vo.in.UpdatePointChargeInfoReqVo;
@@ -228,6 +229,7 @@ public class PointChargeController {
      */
     @Operation(
             summary = "포인트 충전 정보 UUID 전체 조회",
+            hidden = true,
             description = """
                     포인트 충전 정보 UUID 리스트를 조회하는 API 입니다.
                     해당 API 는 사용자에게 노출할 포인트 충전 항목의 UUID 리스트를 제공합니다.
@@ -253,7 +255,7 @@ public class PointChargeController {
      * @param pointChargeUuid
      * @return
      */
-    @Operation(summary = "포인트 충전 정보 단건 조회")
+    @Operation(summary = "포인트 충전 정보 단건 조회", hidden = true)
     @GetMapping("/{pointChargeUuid}")
     public BaseResponseEntity<GetPointChargeInfoResVo> getPointChargeInfo(
             @PathVariable Long pointChargeUuid
@@ -261,5 +263,20 @@ public class PointChargeController {
         return new BaseResponseEntity<>(
                 ResponseMessage.SUCCESS_GET_POINT_CHARGE_INFO.getMessage(),
                 pointChargeService.getPointChargeInfo(pointChargeUuid).toVo());
+    }
+
+    /**
+     * 8. 포인트 충전 정보 전체 조회
+     *
+     * @return
+     */
+    @Operation(summary = "포인트 충전 정보 전체 조회")
+    @GetMapping("/info/all")
+    public BaseResponseEntity<List<GetPointChargeInfoResVo>> getActivePointChargeInfoList() {
+
+        return new BaseResponseEntity<>(
+                ResponseMessage.SUCCESS_GET_POINT_CHARGE_INFO_LIST.getMessage(),
+                pointChargeService.getActivePointChargeInfoList().stream().map(GetPointChargeInfoResDto::toVo).toList()
+        );
     }
 }
