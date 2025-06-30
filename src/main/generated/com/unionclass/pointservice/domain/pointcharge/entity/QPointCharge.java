@@ -38,6 +38,8 @@ public class QPointCharge extends EntityPathBase<PointCharge> {
 
     public final NumberPath<Long> point = createNumber("point", Long.class);
 
+    public final NumberPath<Long> totalPoint = createNumber("totalPoint", Long.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 

@@ -16,7 +16,7 @@ spring:
   application:
     name: point-service
   profiles:
-    active: dev
+    active: prod
 
   jpa:
     hibernate:

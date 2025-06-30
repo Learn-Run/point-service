@@ -11,6 +11,7 @@ import com.unionclass.pointservice.domain.pointcharge.vo.out.GetPaymentInfoResVo
 import com.unionclass.pointservice.domain.pointcharge.vo.out.GetPointChargeInfoResVo;
 import com.unionclass.pointservice.domain.pointcharge.vo.out.GetPointChargeUuidResVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/point-charge")
+@Tag(name = "point-charge")
 public class PointChargeController {
 
     private final PointChargeService pointChargeService;
@@ -251,6 +253,7 @@ public class PointChargeController {
      * @param pointChargeUuid
      * @return
      */
+    @Operation(summary = "포인트 충전 정보 단건 조회")
     @GetMapping("/{pointChargeUuid}")
     public BaseResponseEntity<GetPointChargeInfoResVo> getPointChargeInfo(
             @PathVariable Long pointChargeUuid
