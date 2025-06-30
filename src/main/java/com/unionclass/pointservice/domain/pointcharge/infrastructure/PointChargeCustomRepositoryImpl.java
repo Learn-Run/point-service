@@ -33,7 +33,13 @@ public class PointChargeCustomRepositoryImpl implements PointChargeCustomReposit
     public List<GetPointChargeInfoResDto> getActivePointChargeInfoListSorted() {
 
         return queryFactory
-                .select(Projections.constructor(GetPointChargeInfoResDto.class, pointCharge.uuid))
+                .select(Projections.constructor(
+                        GetPointChargeInfoResDto.class,
+                        pointCharge.point,
+                        pointCharge.bonusPoint,
+                        pointCharge.totalPoint,
+                        pointCharge.paymentAmount)
+                )
                 .from(pointCharge)
                 .where(pointCharge.active.isTrue(), pointCharge.deleted.isFalse())
                 .orderBy(pointCharge.point.asc())
