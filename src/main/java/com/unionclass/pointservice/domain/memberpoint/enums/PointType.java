@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum PointType {
 
+    WELCOME("WELCOME"),
     USE("USE"),
     EARN("EARN"),
     TRANSFER_OUT("TRANSFER_OUT"),

@@ -129,6 +129,9 @@ public enum ErrorCode {
     FAILED_TO_DELETE_POINT_CHARGE(HttpStatus.INTERNAL_SERVER_ERROR, false, 9004, "포인트 충전 정보 삭제에 실패하였습니다."),
     FAILED_TO_GET_PAYMENT_INFO_BY_POINT_CHARGE(HttpStatus.INTERNAL_SERVER_ERROR, false, 9005, "포인트 결제 요청 정보 조회에 실패하였습니다."),
     INVALID_POINT_TYPE_VALUE(HttpStatus.BAD_REQUEST, false, 9006 , "유효하지 않은 포인트 유형입니다."),
+    FAILED_TO_FIND_MEMBER_POINT(HttpStatus.BAD_REQUEST, false, 9007, "회원 포인트 정보 조회에 실패하였습니다."),
+    FAILED_TO_CHARGE_MEMBER_POINT(HttpStatus.BAD_REQUEST, false, 9008, "회원 포인트 충전에 실패하였습니다."),
+    FAILED_TO_INITIALIZE_MEMBER_POINT(HttpStatus.INTERNAL_SERVER_ERROR, false, 9009, "회원 포인트 초기화에 실패하였습니다."),
     ;
 
     private final HttpStatus httpStatus;

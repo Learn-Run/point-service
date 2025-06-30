@@ -1,4 +1,12 @@
 spring:
+  kafka:
+    bootstrap-servers: ${EC2_INFRA_HOST}:10000,${EC2_INFRA_HOST}:10001,${EC2_INFRA_HOST}:10002
+    consumer:
+      group-id: point-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
   datasource:
     url: jdbc:mysql://${MYSQL_HOST}:3306/learn_run_point
     username: ${MYSQL_USER}
