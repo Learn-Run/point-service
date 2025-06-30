@@ -32,6 +32,8 @@ public class PointCharge extends BaseEntity {
     @Comment("보너스 포인트")
     private Long bonusPoint;
 
+    private Long totalPoint;
+
     @Comment("포인트 결제금액")
     @Column(nullable = false)
     private Long paymentAmount;
@@ -49,13 +51,14 @@ public class PointCharge extends BaseEntity {
 
     @Builder
     public PointCharge(
-            Long id, Long uuid, Long point, Long bonusPoint, Long paymentAmount,
-            boolean active, boolean deleted, LocalDateTime deletedAt
+            Long id, Long uuid, Long point, Long bonusPoint, Long totalPoint,
+            Long paymentAmount, boolean active, boolean deleted, LocalDateTime deletedAt
     ) {
         this.id = id;
         this.uuid = uuid;
         this.point = point;
         this.bonusPoint = bonusPoint;
+        this.totalPoint = totalPoint;
         this.paymentAmount = paymentAmount;
         this.active = active;
         this.deleted = deleted;

@@ -33,10 +33,14 @@ public class CreatePointChargeInfoReqDto {
     }
 
     public PointCharge toEntity(Long uuid) {
+
+        long bonus = bonusPoint != null ? bonusPoint : 0L;
+
         return PointCharge.builder()
                 .uuid(uuid)
                 .point(point)
-                .bonusPoint(bonusPoint)
+                .bonusPoint(bonus)
+                .totalPoint(point + bonus)
                 .paymentAmount(paymentAmount)
                 .active(active)
                 .deleted(false)
