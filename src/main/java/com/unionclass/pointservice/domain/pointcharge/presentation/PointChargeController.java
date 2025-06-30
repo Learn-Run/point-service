@@ -8,6 +8,7 @@ import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPointChargeUuid
 import com.unionclass.pointservice.domain.pointcharge.vo.in.CreatePointChargeInfoReqVo;
 import com.unionclass.pointservice.domain.pointcharge.vo.in.UpdatePointChargeInfoReqVo;
 import com.unionclass.pointservice.domain.pointcharge.vo.out.GetPaymentInfoResVo;
+import com.unionclass.pointservice.domain.pointcharge.vo.out.GetPointChargeInfoResVo;
 import com.unionclass.pointservice.domain.pointcharge.vo.out.GetPointChargeUuidResVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,8 @@ public class PointChargeController {
      * 3. 포인트 충전 정보 변경
      * 4. 포인트 충전 정보 삭제
      * 5. 포인트 결제 요청 정보 조회
+     * 6. 포인트 충전 정보 UUID 전체 조회
+     * 7. 포인트 충전 정보 단건 조회
      */
 
     /**
@@ -97,7 +100,7 @@ public class PointChargeController {
     public BaseResponseEntity<Void> toggleActiveStatus(
             @PathVariable Long pointChargeUuid
     ) {
-        pointChargeService.toggleActiveStatus(ToggleActiveStatusReqDto.from(pointChargeUuid));
+        pointChargeService.toggleActiveStatus(pointChargeUuid);
         return new BaseResponseEntity<>(ResponseMessage.SUCCESS_TOGGLE_ACTIVE_STATUS.getMessage());
     }
 
@@ -172,7 +175,7 @@ public class PointChargeController {
     public BaseResponseEntity<Void> deletePointChargeInfo(
             @PathVariable Long pointChargeUuid
     ) {
-        pointChargeService.deletePointChargeInfo(DeletePointChargeInfoReqDto.from(pointChargeUuid));
+        pointChargeService.deletePointChargeInfo(pointChargeUuid);
         return new BaseResponseEntity<>(ResponseMessage.SUCCESS_DELETE_POINT_CHARGE.getMessage());
     }
 
@@ -184,6 +187,7 @@ public class PointChargeController {
      */
     @Operation(
             summary = "포인트 결제 요청 정보 조회",
+            hidden = true,
             description = """
                     사용자가 선택한 포인트 충전 정보를 기반으로 결제 요청에 필요한 정보를 조회하는 API 입니다.
                     이 API 는 사용자 결제 과정에서 호출되며,
@@ -212,7 +216,7 @@ public class PointChargeController {
     ) {
         return new BaseResponseEntity<>(
                 ResponseMessage.SUCCESS_GET_PAYMENT_INFO_BY_POINT_CHARGE.getMessage(),
-                pointChargeService.getPaymentInfoByPointCharge(GetPaymentInfoReqDto.from(pointChargeUuid)).toVo());
+                pointChargeService.getPaymentInfoByPointCharge(pointChargeUuid).toVo());
     }
 
     /**
@@ -239,5 +243,20 @@ public class PointChargeController {
         return new BaseResponseEntity<>(
                 ResponseMessage.SUCCESS_GET_POINT_CHARGE_UUID_LIST.getMessage(),
                 pointChargeService.getActivePointChargeUuids().stream().map(GetPointChargeUuidResDto::toVo).toList());
+    }
+
+    /**
+     * 7. 포인트 충전 정보 단건 조회
+     *
+     * @param pointChargeUuid
+     * @return
+     */
+    @GetMapping("/{pointChargeUuid}")
+    public BaseResponseEntity<GetPointChargeInfoResVo> getPointChargeInfo(
+            @PathVariable Long pointChargeUuid
+    ) {
+        return new BaseResponseEntity<>(
+                ResponseMessage.SUCCESS_GET_POINT_CHARGE_INFO.getMessage(),
+                pointChargeService.getPointChargeInfo(pointChargeUuid).toVo());
     }
 }

@@ -6,6 +6,7 @@ import com.unionclass.pointservice.common.util.NumericUuidGenerator;
 import com.unionclass.pointservice.common.util.StringUuidGenerator;
 import com.unionclass.pointservice.domain.pointcharge.dto.in.*;
 import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPaymentInfoResDto;
+import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPointChargeInfoResDto;
 import com.unionclass.pointservice.domain.pointcharge.dto.out.GetPointChargeUuidResDto;
 import com.unionclass.pointservice.domain.pointcharge.entity.PointCharge;
 import com.unionclass.pointservice.domain.pointcharge.infrastructure.PointChargeRepository;
@@ -47,11 +48,11 @@ public class PointChargeServiceImpl implements PointChargeService {
 
     @Transactional
     @Override
-    public void toggleActiveStatus(ToggleActiveStatusReqDto toggleActiveStatusReqDto) {
+    public void toggleActiveStatus(Long pointChargeUuid) {
 
         try {
 
-            PointCharge pointCharge = pointChargeRepository.findByUuid(toggleActiveStatusReqDto.getPointChargeUuid())
+            PointCharge pointCharge = pointChargeRepository.findByUuid(pointChargeUuid)
                     .orElseThrow(() -> new BaseException(ErrorCode.FAILED_TO_FIND_POINT_CHARGE));
 
             pointCharge.toggleActive();
@@ -99,11 +100,11 @@ public class PointChargeServiceImpl implements PointChargeService {
 
     @Transactional
     @Override
-    public void deletePointChargeInfo(DeletePointChargeInfoReqDto deletePointChargeInfoReqDto) {
+    public void deletePointChargeInfo(Long pointChargeUuid) {
 
         try {
 
-            PointCharge pointCharge = pointChargeRepository.findByUuid(deletePointChargeInfoReqDto.getPointChargeUuid())
+            PointCharge pointCharge = pointChargeRepository.findByUuid(pointChargeUuid)
                     .orElseThrow(() -> new BaseException(ErrorCode.FAILED_TO_FIND_POINT_CHARGE));
 
             pointCharge.deleteInfo();
@@ -126,16 +127,17 @@ public class PointChargeServiceImpl implements PointChargeService {
     }
 
     @Override
-    public GetPaymentInfoResDto getPaymentInfoByPointCharge(GetPaymentInfoReqDto getPaymentInfoReqDto) {
+    public GetPaymentInfoResDto getPaymentInfoByPointCharge(Long pointChargeUuid) {
 
         try {
-            PointCharge pointCharge = pointChargeRepository.findByUuid(getPaymentInfoReqDto.getPointChargeUuid())
+            PointCharge pointCharge = pointChargeRepository.findByUuid(pointChargeUuid)
                     .orElseThrow(() -> new BaseException(ErrorCode.FAILED_TO_FIND_POINT_CHARGE));
 
             return GetPaymentInfoResDto.of(
                     stringUuidGenerator.generate(),
                     orderNameTemplateProvider.getOrderNameTemplate(pointCharge),
                     pointCharge.getPaymentAmount());
+
         } catch (BaseException e) {
 
             throw e;
@@ -151,6 +153,14 @@ public class PointChargeServiceImpl implements PointChargeService {
 
     @Override
     public List<GetPointChargeUuidResDto> getActivePointChargeUuids() {
+
         return pointChargeRepository.getActivePointChargeUuidsSorted();
+    }
+
+    @Override
+    public GetPointChargeInfoResDto getPointChargeInfo(Long pointChargeUuid) {
+
+        return GetPointChargeInfoResDto.from(pointChargeRepository.findByUuid(pointChargeUuid)
+                .orElseThrow(() -> new BaseException(ErrorCode.FAILED_TO_FIND_POINT_CHARGE)));
     }
 }
