@@ -8,7 +8,7 @@ public interface MemberPointService {
 
     void chargePoint(ChargePointReqDto dto);
 
-    void chargePoint(PaymentCreatedEvent event)
+    void chargePoint(PaymentCreatedEvent event);
 
     void initializeMemberPoint(MemberCreatedEvent event);
 }
