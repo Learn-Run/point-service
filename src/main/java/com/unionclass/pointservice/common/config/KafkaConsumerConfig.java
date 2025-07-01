@@ -1,6 +1,7 @@
 package com.unionclass.pointservice.common.config;
 
 import com.unionclass.pointservice.common.kafka.event.MemberCreatedEvent;
+import com.unionclass.pointservice.common.kafka.event.PaymentCreatedEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +50,23 @@ public class KafkaConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, MemberCreatedEvent> memberCreatedEventListener() {
         ConcurrentKafkaListenerContainerFactory<String, MemberCreatedEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(memberCreatedEventConsumerFactory());
+
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, PaymentCreatedEvent> paymentCreatedEventConsumerFactory() {
+
+        return new DefaultKafkaConsumerFactory<>(
+                consumerConfigs(PaymentCreatedEvent.class),
+                new StringDeserializer(),
+                new ErrorHandlingDeserializer<>(new JsonDeserializer<>(PaymentCreatedEvent.class, false)));
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, PaymentCreatedEvent> paymentCreatedEventListener() {
+        ConcurrentKafkaListenerContainerFactory<String, PaymentCreatedEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(paymentCreatedEventConsumerFactory());
 
         return factory;
     }

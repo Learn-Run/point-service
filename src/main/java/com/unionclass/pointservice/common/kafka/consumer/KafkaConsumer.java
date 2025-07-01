@@ -1,6 +1,7 @@
 package com.unionclass.pointservice.common.kafka.consumer;
 
 import com.unionclass.pointservice.common.kafka.event.MemberCreatedEvent;
+import com.unionclass.pointservice.common.kafka.event.PaymentCreatedEvent;
 import com.unionclass.pointservice.domain.memberpoint.application.MemberPointService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,5 +29,20 @@ public class KafkaConsumer {
         log.info("회원 생성 이벤트 수신 - topic: {}, partition: {}, offset: {}",
                 consumerRecord.topic(), consumerRecord.partition(), consumerRecord.offset());
         memberPointService.initializeMemberPoint(memberCreatedEvent);
+    }
+
+    @KafkaListener(
+            topics = "payment-created",
+            groupId = "point-group",
+            containerFactory = "paymentCreatedEventListener"
+    )
+    public void consumePaymentCreatedEvent(
+            PaymentCreatedEvent paymentCreatedEvent,
+            ConsumerRecord<String, PaymentCreatedEvent> consumerRecord
+    ) {
+        log.info("결제 생성 이벤트 수신 완료: {}", paymentCreatedEvent);
+        log.info("결제 생성 이벤트 수신 - topic: {}, partition: {}, offset: {}",
+                consumerRecord.topic(), consumerRecord.partition(), consumerRecord.offset());
+        memberPointService.chargePoint(paymentCreatedEvent);
     }
 }

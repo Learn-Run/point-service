@@ -3,6 +3,7 @@ package com.unionclass.pointservice.domain.memberpoint.application;
 import com.unionclass.pointservice.common.exception.BaseException;
 import com.unionclass.pointservice.common.exception.ErrorCode;
 import com.unionclass.pointservice.common.kafka.event.MemberCreatedEvent;
+import com.unionclass.pointservice.common.kafka.event.PaymentCreatedEvent;
 import com.unionclass.pointservice.common.util.NumericUuidGenerator;
 import com.unionclass.pointservice.domain.memberpoint.dto.in.ChargePointReqDto;
 import com.unionclass.pointservice.domain.memberpoint.entity.MemberPoint;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -40,6 +43,29 @@ public class MemberPointServiceImpl implements MemberPointService {
         } catch (Exception e) {
 
             log.warn("회원 포인트 충전 실패 - memberUuid: {}, pointDelta: {}", dto.getMemberUuid(), dto.getPointDelta());
+
+            throw new BaseException(ErrorCode.FAILED_TO_CHARGE_MEMBER_POINT);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void chargePoint(PaymentCreatedEvent event) {
+
+        try {
+
+            memberPointRepository
+                    .save(event.toEntity(
+                            uuidGenerator.generate(),
+                            memberPointRepository.findByMemberUuid(event.getMemberUuid())
+                    .orElseThrow(() -> new BaseException(ErrorCode.FAILED_TO_FIND_MEMBER_POINT))));
+
+            log.info("회원 포인트 충전 성공 - memberUuid: {}, point: {}", event.getMemberUuid(), event.getPoint());
+
+        } catch (Exception e) {
+
+            log.warn("회원 포인트 충전 실패 - memberUuid: {}, point: {}, message: {}",
+                    event.getMemberUuid(), event.getPoint(), e.getMessage(), e);
 
             throw new BaseException(ErrorCode.FAILED_TO_CHARGE_MEMBER_POINT);
         }
