@@ -22,6 +22,7 @@ public enum ErrorCode {
      * 800 ~ 899 : internal server error / system, infra error
      */
     LOCK_ACQUISITION_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 800, "락 획득에 실패하였습니다."),
+    INVALID_CURSOR_FORMAT(HttpStatus.BAD_REQUEST, false, 801, "유효하지 않은 커서 형식입니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 888, "서버에서 요청을 처리하지 못했습니다."),
 
     /**

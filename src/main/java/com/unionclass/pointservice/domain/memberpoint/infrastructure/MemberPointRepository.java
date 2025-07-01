@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface MemberPointRepository extends JpaRepository<MemberPoint, Long> {
+public interface MemberPointRepository extends JpaRepository<MemberPoint, Long>, MemberPointCustomRepository {
 
     Optional<MemberPoint> findByMemberUuid(String memberUuid);
 }
