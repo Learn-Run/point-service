@@ -12,7 +12,10 @@ import com.unionclass.pointservice.domain.memberpoint.vo.out.GetMemberPointInfoR
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,11 +42,18 @@ public class MemberPointController {
     public BaseResponseEntity<CursorPage<GetMemberPointInfoResVo>> getAllMemberPointInfo(
             @RequestHeader("X-Member-UUID") String memberUuid,
             @RequestParam String cursor,
-            @RequestParam(defaultValue = "8") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ) {
         return new BaseResponseEntity<>(
                 ResponseMessage.SUCCESS_GET_ALL_MEMBER_POINT_INFO.getMessage(),
-                memberPointService.getAllMemberPointInfo(CursorPageParamReqDto.of(memberUuid, cursor, size)).map(GetMemberPointInfoResDto::toVo)
+                memberPointService
+                        .getAllMemberPointInfo(
+                                CursorPageParamReqDto
+                                        .of(memberUuid, cursor, size, startDate, endDate)
+                        )
+                        .map(GetMemberPointInfoResDto::toVo)
         );
     }
 }

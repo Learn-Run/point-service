@@ -84,6 +84,16 @@ public class MemberPointCustomRepositoryImpl implements MemberPointCustomReposit
             );
         }
 
+        // startDate 조건 (inclusive)
+        if (dto.getStartDate() != null) {
+            predicate = predicate.and(qMemberPoint.createdAt.goe(dto.getStartDate().atStartOfDay()));
+        }
+
+        // endDate 조건 (inclusive)
+        if (dto.getEndDate() != null) {
+            predicate = predicate.and(qMemberPoint.createdAt.loe(dto.getEndDate().atTime(23, 59, 59)));
+        }
+
         return predicate;
     }
 }

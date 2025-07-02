@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
+
 @Slf4j
 @Getter
 @NoArgsConstructor
@@ -16,18 +18,24 @@ public class CursorPageParamReqDto {
     private String createdAtCursor;
     private Long uuidCursor;
     private int size;
+    LocalDate startDate;
+    LocalDate endDate;
 
     @Builder
     public CursorPageParamReqDto(
-            String memberUuid, String createdAtCursor, Long uuidCursor, int size) {
+            String memberUuid, String createdAtCursor, Long uuidCursor, int size, LocalDate startDate, LocalDate endDate
+    ) {
         this.memberUuid = memberUuid;
         this.createdAtCursor = createdAtCursor;
         this.uuidCursor = uuidCursor;
         this.size = size;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
-    public static CursorPageParamReqDto of(String memberUuid, String cursor, int size) {
-
+    public static CursorPageParamReqDto of(
+            String memberUuid, String cursor, int size, LocalDate startDate, LocalDate endDate
+    ) {
         String createdAtCursor = null;
         Long uuidCursor = null;
 
@@ -53,6 +61,8 @@ public class CursorPageParamReqDto {
                 .createdAtCursor(createdAtCursor)
                 .uuidCursor(uuidCursor)
                 .size(size)
+                .startDate(startDate)
+                .endDate(endDate)
                 .build();
     }
 }
