@@ -41,7 +41,7 @@ public class MemberPointController {
     @GetMapping("/info")
     public BaseResponseEntity<CursorPage<GetMemberPointInfoResVo>> getAllMemberPointInfo(
             @RequestHeader("X-Member-UUID") String memberUuid,
-            @RequestParam String cursor,
+            @RequestParam(required = false) String cursor,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
