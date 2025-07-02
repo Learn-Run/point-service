@@ -35,11 +35,11 @@ public class MemberPointCustomRepositoryImpl implements MemberPointCustomReposit
                 .select(
                         Projections.constructor(
                                 GetMemberPointInfoResDto.class,
+                                qMemberPoint.uuid,
                                 qMemberPoint.delta,
                                 qMemberPoint.point,
                                 qMemberPoint.type,
-                                qMemberPoint.createdAt,
-                                qMemberPoint.uuid
+                                qMemberPoint.createdAt
                         ))
                 .from(qMemberPoint)
                 .where(predicate)
