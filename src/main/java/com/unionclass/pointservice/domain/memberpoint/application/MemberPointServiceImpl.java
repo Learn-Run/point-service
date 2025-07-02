@@ -60,7 +60,7 @@ public class MemberPointServiceImpl implements MemberPointService {
             memberPointRepository
                     .save(event.toEntity(
                             uuidGenerator.generate(),
-                            memberPointRepository.findByMemberUuid(event.getMemberUuid())
+                            memberPointRepository.findTopByMemberUuidOrderByCreatedAtDesc(event.getMemberUuid())
                     .orElseThrow(() -> new BaseException(ErrorCode.FAILED_TO_FIND_MEMBER_POINT))));
 
             log.info("회원 포인트 충전 성공 - memberUuid: {}, point: {}", event.getMemberUuid(), event.getPoint());
