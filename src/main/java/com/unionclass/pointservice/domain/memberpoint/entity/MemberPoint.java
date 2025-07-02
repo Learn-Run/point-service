@@ -26,6 +26,7 @@ public class MemberPoint extends BaseEntity {
 
     private Long point;
 
+    @Enumerated(EnumType.STRING)
     private PointType type;
 
     @Builder
